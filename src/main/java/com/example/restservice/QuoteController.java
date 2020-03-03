@@ -1,5 +1,7 @@
 package com.example.restservice;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,10 @@ public class QuoteController {
         if (isin.length() != 12) {
             throw new RuntimeException("isin length is not 12 chars");
         }
-        if (bid.length() > 0 && ask.length() > 0) {
-
+        if (!(bid.isEmpty() || ask.isEmpty())) {
+            if (Float.valueOf(bid) >= Float.valueOf(ask)) {
+                throw new RuntimeException("Bid must less ask!");
+            }
         }
 
         Quote quote = new Quote(isin, bid, ask);
@@ -30,6 +34,11 @@ public class QuoteController {
     @GetMapping("/elvl")
     public Float getElvl(@RequestParam(value = "isin") String isin) {
         return Elvl.getElvl(isin);
+    }
+
+    @GetMapping("/elvlAll")
+    public List<Map.Entry<String, Float>> getElvlAll() {
+        return Elvl.getElvlAll();
     }
 
 }

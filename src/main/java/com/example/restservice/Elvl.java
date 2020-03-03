@@ -1,13 +1,21 @@
 package com.example.restservice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Elvl {
     private static Map<Long, Quote> history = new HashMap<>();
-    private static Map<String, List<Quote>> historyQuoteByIsin = new HashMap<>();
     private static Map<String, Float> elvl = new HashMap<>();
+
+    public static void setHistory(Map<Long, Quote> history) {
+        Elvl.history = history;
+    }
+
+    public static void setElvl(Map<String, Float> elvl) {
+        Elvl.elvl = elvl;
+    }
 
     public static Float getElvl(String isin) {
         return Elvl.elvl.get(isin);
@@ -19,42 +27,46 @@ public class Elvl {
     }
 
     private static Float calculateElvl(Quote quote) {
-        String isin = quote.getIsin();
-        Float elvl = Elvl.elvl.get(isin);
-        Float bid = Float.valueOf(quote.getBid());
-        Float ask = Float.valueOf(quote.getAsk());
+        String isin;
+        Float elvl = null;
+        Float bid = null;
+        Float ask = null;
+        try {
+            isin = quote.getIsin();
+            elvl = Elvl.elvl.get(isin);
+            bid = Float.valueOf(quote.getBid());
+            ask = Float.valueOf(quote.getAsk());
 
-        if (elvl != null) {
-            if (bid > elvl) {
+            if (elvl != null) {
+                if (bid > elvl) {
+                    return bid;
+                }
+                if (ask < elvl) {
+                    return ask;
+                }
+            } else {
+                if (bid == null) {
+                    return ask;
+                }
                 return bid;
             }
-            if (ask < elvl) {
-                return ask;
+        } catch (NumberFormatException e) {
+            if (quote.getBid().isEmpty()) {
+                return Float.valueOf(quote.getAsk());
             }
-        } else {
-            if (bid == null) {
-                return ask;
-            }
-            return bid;
+            e.printStackTrace();
         }
 
-
-        return null;
+        return elvl;
     }
 
-    public static void main(String[] args) {
-       Elvl app = new Elvl();
-       Quote quote1 = new Quote( "RU000A0JX0J2", String.valueOf(100.2f), String.valueOf(101.9f));
-       app.save(1L, quote1);
-       Float result = app.getElvl("RU000A0JX0J2");
-       System.out.println(result);
 
-       Quote quote2 = new Quote("RU000A0JX0J2", String.valueOf(100.5f), String.valueOf(101.9f));
-       app.save(2L, quote2);
-       result = app.getElvl("RU000A0JX0J2");
-       System.out.println(result);
-
+    public static List<Map.Entry<String, Float>> getElvlAll() {
+        List<Map.Entry<String, Float>> result = new ArrayList<>();
+        for ( Map.Entry<String, Float> x : elvl.entrySet()) {
+            result.add(x);
+        }
+        return result;
     }
-
 
 }

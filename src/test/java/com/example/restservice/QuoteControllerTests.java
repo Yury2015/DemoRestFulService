@@ -17,11 +17,8 @@ package com.example.restservice;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,20 +28,35 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 public class QuoteControllerTests {
 
+
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
-	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
+	public void noParamQuoteShouldReturnError() throws Exception {
 		this.mockMvc.perform(get("/quote")).andDo(print()).andExpect(status().is(400));
 	}
 
 	@Test
-	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
+	public void paramQuoteShouldReturnOk() throws Exception {
 		this.mockMvc.perform(get("/quote")
 				.param("isin", "RU000A0JX0J2")
 				.param("bid", "100.2")
 				.param("ask", "101.9"))
 				.andDo(print()).andExpect(status().isOk());
 	}
+
+	@Test
+	public void paramElvlShouldReturnOk() throws Exception {
+		this.mockMvc.perform(get("/elvl")
+				.param("isin", "RU000A0JX0J2"))
+				.andDo(print()).andExpect(status().isOk());
+	}
+
+	@Test
+	public void paramElvlAllShouldReturnOk() throws Exception {
+		this.mockMvc.perform(get("/elvlAll"))
+				.andDo(print()).andExpect(status().isOk());
+	}
+
 }
