@@ -1,9 +1,9 @@
 package com.example.restservice;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Elvl {
     private static Map<Long, Quote> history = new HashMap<>();
@@ -60,13 +60,8 @@ public class Elvl {
         return elvl;
     }
 
-
     public static List<Map.Entry<String, Float>> getElvlAll() {
-        List<Map.Entry<String, Float>> result = new ArrayList<>();
-        for ( Map.Entry<String, Float> x : elvl.entrySet()) {
-            result.add(x);
-        }
-        return result;
+        return elvl.entrySet().stream().collect(Collectors.toList());
     }
 
 }
