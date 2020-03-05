@@ -9,7 +9,7 @@ http://localhost:8080/elvl?isin=RU000A0JX0J2
 Предоставление перечня всех elvls:
 http://localhost:8080/elvlAll
 
-#Maven:
+# Maven:
 
 Запуск: ./mvnw spring-boot:run
 
@@ -18,7 +18,7 @@ http://localhost:8080/elvlAll
 Запуск jar файла: java -jar target/gs-rest-service-0.1.0.jar
 
 
-#Gradle:
+# Gradle:
 
 Запуск: ./gradlew bootRun
 
