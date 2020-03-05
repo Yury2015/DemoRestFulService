@@ -29,8 +29,8 @@ public class Elvl {
     private static Float calculateElvl(Quote quote) {
         String isin;
         Float elvl = null;
-        Float bid = null;
-        Float ask = null;
+        Float bid;
+        Float ask;
         try {
             isin = quote.getIsin();
             elvl = Elvl.elvl.get(isin);
@@ -45,9 +45,6 @@ public class Elvl {
                     return ask;
                 }
             } else {
-                if (bid == null) {
-                    return ask;
-                }
                 return bid;
             }
         } catch (NumberFormatException e) {
