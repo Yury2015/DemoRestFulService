@@ -13,6 +13,10 @@ public class Elvl {
         Elvl.history = history;
     }
 
+    public static Map<Long, Quote> getHistory() {
+        return history;
+    }
+
     public static void setElvl(Map<String, Float> elvl) {
         Elvl.elvl = elvl;
     }

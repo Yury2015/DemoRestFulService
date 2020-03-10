@@ -100,5 +100,10 @@ class ElvlTest {
 
     @Test
     void save() {
+        app.save(1L, quote1);
+        app.save(2L, quote2);
+        app.save(3L, quote3);
+        app.save(4L, quoteEmptyBid);
+        assertEquals(4, app.getHistory().size());
     }
 }
