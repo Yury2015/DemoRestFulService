@@ -52,7 +52,7 @@ public class QuoteControllerTests {
 		this.mockMvc.perform(get("/elvl")
 				.param("isin", "RU000A0JX0J2"))
 				.andDo(print()).andExpect(status().isOk())
-                .andExpect(content().json("100.2"));
+				.andExpect(content().json("100.2"));
 	}
 
 	@Test
