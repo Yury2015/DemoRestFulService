@@ -17,7 +17,7 @@ package com.example.restservice;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,20 +43,23 @@ public class QuoteControllerTests {
 				.param("isin", "RU000A0JX0J2")
 				.param("bid", "100.2")
 				.param("ask", "101.9"))
-				.andDo(print()).andExpect(status().isOk());
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(content().json("{\"isin\":\"RU000A0JX0J2\",\"bid\":\"100.2\",\"ask\":\"101.9\"}"));
 	}
 
 	@Test
 	public void paramElvlShouldReturnOk() throws Exception {
 		this.mockMvc.perform(get("/elvl")
 				.param("isin", "RU000A0JX0J2"))
-				.andDo(print()).andExpect(status().isOk());
+				.andDo(print()).andExpect(status().isOk())
+		        .andExpect(content().json("100.2"));
 	}
 
 	@Test
 	public void paramElvlAllShouldReturnOk() throws Exception {
 		this.mockMvc.perform(get("/elvlAll"))
-				.andDo(print()).andExpect(status().isOk());
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(content().json("[{\"RU000A0JX0J2\":100.2}]"));
 	}
 
 }
