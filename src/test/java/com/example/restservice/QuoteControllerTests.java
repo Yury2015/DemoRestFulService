@@ -15,6 +15,7 @@
  */
 package com.example.restservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,6 +36,34 @@ public class QuoteControllerTests {
 	@Test
 	public void noParamQuoteShouldReturnError() throws Exception {
 		this.mockMvc.perform(get("/quote")).andDo(print()).andExpect(status().is(400));
+	}
+
+	@Test
+	public void paramQuoteShouldExceptionBidMustLessAsk() {
+		try {
+			this.mockMvc.perform(get("/quote")
+					.param("isin", "RU000A0JX0J2")
+					.param("bid", "105.2")
+					.param("ask", "101.9"));
+		} catch (Exception e) {
+			String errorMessage = "Bid must less ask!";
+			String message = e.getMessage().substring(e.getMessage().length() - errorMessage.length());
+			assertEquals(errorMessage, message);
+		}
+	}
+
+	@Test
+	public void paramQuoteShouldExceptionIsinLengthIsNot12Chars() {
+		try {
+			this.mockMvc.perform(get("/quote")
+					.param("isin", "RU000A0JX0J")
+					.param("bid", "100.2")
+					.param("ask", "101.9"));
+		} catch (Exception e) {
+			String errorMessage = "isin length is not 12 chars";
+			String message = e.getMessage().substring(e.getMessage().length() - errorMessage.length());
+			assertEquals(errorMessage, message);
+		}
 	}
 
 	@Test
