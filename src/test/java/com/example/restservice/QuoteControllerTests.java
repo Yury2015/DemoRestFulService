@@ -16,6 +16,7 @@
 package com.example.restservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,6 +46,7 @@ public class QuoteControllerTests {
 					.param("isin", "RU000A0JX0J2")
 					.param("bid", "105.2")
 					.param("ask", "101.9"));
+			fail("Exception \"Bid must less ask!\" is not thrown");
 		} catch (Exception e) {
 			String errorMessage = "Bid must less ask!";
 			String message = e.getMessage().substring(e.getMessage().length() - errorMessage.length());
@@ -59,11 +61,13 @@ public class QuoteControllerTests {
 					.param("isin", "RU000A0JX0J")
 					.param("bid", "100.2")
 					.param("ask", "101.9"));
+			fail("Exception \"isin length is not 12 chars\" is not thrown");
 		} catch (Exception e) {
 			String errorMessage = "isin length is not 12 chars";
 			String message = e.getMessage().substring(e.getMessage().length() - errorMessage.length());
 			assertEquals(errorMessage, message);
 		}
+
 	}
 
 	@Test
