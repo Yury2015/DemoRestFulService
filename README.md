@@ -15,7 +15,7 @@ http://localhost:8080/elvlAll
 
 Создание jar файла: ./mvnw clean package
 
-Запуск jar файла: java -jar target/gs-rest-service-0.1.0.jar
+Запуск jar файла: java -jar target/rest-service-0.1.0.jar
 
 
 # Gradle:
@@ -24,4 +24,4 @@ http://localhost:8080/elvlAll
 
 Создание jar файла: ./gradlew build
 
-Запуск jar файла: java -jar build/libs/gs-rest-service-0.1.0.jar
+Запуск jar файла: java -jar build/libs/rest-service-0.1.0.jar
